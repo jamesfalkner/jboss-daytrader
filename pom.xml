@@ -292,6 +292,19 @@
 
     </build>
 
+    <repositories>
+<repository>
+    <id>codehaus.snapshots</id>
+    <url>whatever</url>
+    <snapshots>
+        <enabled>false</enabled>
+    </snapshots>
+    <releases>
+        <enabled>false</enabled>
+    </releases>
+</repository>
+</repositories>
+    
     <pluginRepositories>
         <!-- required for clean build unless you want to bootstrap the car-maven-plugin -->
         <pluginRepository>

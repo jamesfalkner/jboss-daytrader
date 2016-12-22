@@ -1,0 +1,219 @@
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <title>Welcome to Daytrader</title>    
+</h:head>
+<h:body bgcolor="#ffffff" link="#000099">
+
+<table style="font-size: smaller">
+	<tbody>
+		<tr>
+			<td bgcolor="#c93333" align="left" width="640" height="10"><b><font
+				color="#ffffff">DayTrader Configuration</font></b></td>
+			<td align="center" bgcolor="#000000" width="100" height="10"><font
+				color="#ffffff"><b>DayTrader</b></font></td>
+		</tr>
+		<tr>
+			<td colspan="6">
+			<hr/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6"></td>
+		</tr>
+	</tbody>
+</table>
+<h:form>
+<table width="740" height="30">
+	<tbody>
+		<tr>
+			<td></td>
+			<td><font color="#ff0033"><h:outputLabel value="#{tradeconfig.result}"/></font></td>
+			<td></td>
+		</tr>
+	</tbody>
+</table>
+
+<table border="1" width="740">
+	<tbody>
+		<tr>
+			<td colspan="2">The current DayTrader runtime configuration is
+			detailed below. View and optionally update run-time parameters.
+			&nbsp;<br/>
+			<br/>
+			<b>NOTE: </b>Parameters settings will return to default
+			on&nbsp;server restart. To make configuration settings persistent
+			across application server stop/starts, edit the servlet init
+			parameters for each DayTrader servlet. This is described in the 
+			<a href="docs/tradeFAQ.html">DayTrader FAQ</a><br/>
+			<hr/>
+			</td>
+		</tr>
+		<tr>
+			<td align="left"><b>Run-Time Mode </b>
+			<p align="left">
+			<h:selectOneRadio value="#{tradeconfig.runtimeMode}">
+                    <f:selectItems value="#{tradeconfig.runtimeModeList}" />
+                </h:selectOneRadio></p>
+			</td>
+			<td><br/>
+			Run Time Mode determines server implementation of the TradeServices
+			to use in the DayTrader application Enterprise Java Beans including
+			Session, Entity and Message beans or Direct mode which uses direct
+			database and JMS access. See <a href="docs/tradeFAQ.html">DayTrader
+			FAQ</a> for details.<br/>
+			</td>
+		</tr>
+		
+		
+		<tr>
+			<td align="left"><b>JPA Layer</b>
+			<p align="left"><h:selectOneRadio value="#{tradeconfig.JPALayer}">
+                    <f:selectItems value="#{tradeconfig.JPALayerList}" />
+                </h:selectOneRadio></p>
+			</td>
+			<td><br/>
+			JPA Layer determines what kind of JPA Implementation Daytrader 
+			EJB classes use. Typically, Apache Geronimo uses OpenJPA, and RedHat
+			JBoss 5 uses Hibernate.<br/>
+			</td>
+		</tr>
+
+
+		<tr>
+			<td align="left"><b>Order-Processing Mode </b>
+			<p align="left">
+			<h:selectOneRadio value="#{tradeconfig.orderProcessingMode}">
+                    <f:selectItems value="#{tradeconfig.orderProcessingModeList}" />
+                </h:selectOneRadio></p>
+			</td>
+			<td><br/>
+			Order Processing Mode determines the mode for completing stock
+			purchase and sell operations. Synchronous mode completes the order
+			immediately. Asychronous_2-Phase performs a 2-phase commit over the EJB Entity/DB
+ 			and MDB/JMS transactions. See <a href="docs/tradeFAQ.html">DayTrader
+ 			FAQ</a> for details. <b></b><br/>
+ 			</td>
+		</tr>
+		
+		<tr>
+			<td align="left"><b>Scenario Workload Mix</b>
+			<p align="left"><h:selectOneRadio value="#{tradeconfig.workloadMix}">
+                    <f:selectItems value="#{tradeconfig.workloadMixNamesList}" />
+                </h:selectOneRadio></p>
+			</td>
+			<td>This setting determines the runtime workload mix of DayTrader
+			operations when driving the benchmark through TradeScenarioServlet.
+			See <a href="docs/tradeFAQ.html">DayTrader FAQ</a> for details.</td>
+		</tr>
+		<tr>
+			<td align="left"><b>WebInterface</b>
+			<p align="left"><h:selectOneRadio value="#{tradeconfig.webInterface}">
+                    <f:selectItems value="#{tradeconfig.webInterfaceList}" />
+                </h:selectOneRadio></p>
+			</td>
+			<td>This setting determines the Web interface technology used, JSPs
+			or JSPs with static images and GIFs.</td>
+		</tr>
+		
+		<tr>
+			<td colspan="2" align="center"><b>Miscellaneous Settings</b></td>
+		</tr>
+		<tr>
+			<td align="left"><b>DayTrader Max Users </b><br/>
+			<h:inputText value="#{tradeconfig.maxUsers}" required="true"></h:inputText><br/>
+			<b>Trade Max Quotes</b><br/>
+			<h:inputText value="#{tradeconfig.maxQuotes}" required="true"></h:inputText></td>
+			<td>By default the DayTrader database is populated with 200 users
+			(uid:0 - uid:199) and 400 quotes (s:0 - s:399). <br/>
+			</td>
+		</tr>
+		<tr>
+			<td align="left"><b>Market Summary Interval</b><br/>
+			<h:inputText value="#{tradeconfig.marketSummaryInterval}" required="true"></h:inputText></td>
+			<td>&lt; 0 Do not perform Market Summary Operations.<br/>
+			= 0 Perform market Summary on every request.<br/>
+			<br/>&gt; 0 number of seconds between Market Summary Operations<br/></td>
+		</tr>
+		<tr>
+			<td align="left"><b>Primitive Iteration</b><br/>
+			<h:inputText value="#{tradeconfig.primIterations}" required="true"></h:inputText></td>
+			<td>By default the DayTrader primitives are execute one operation per
+			web request. Change this value to repeat operations multiple times
+			per web request.</td>
+		</tr>
+		<tr>
+			<td align="left"><h:selectBooleanCheckbox title="Publish Quote Updates"
+                    value="#{tradeconfig.publishQuotePriceChange}"></h:selectBooleanCheckbox>
+               <b><font size="-1">Publish Quote Updates</font></b><br/>
+            </td>
+            <td>
+                Publish quote price changes to a JMS topic.<br/>
+            </td>
+        </tr>
+		<tr>
+			<td align="left"><h:selectBooleanCheckbox title="Enable long run support"
+                    value="#{tradeconfig.longRun}"></h:selectBooleanCheckbox><b><font size="-1">Enable long run support</font></b><br/>
+            </td>
+            <td>
+                Enable long run support by disabling the show all orders query performed on the Account page.<br/>
+            </td>
+        </tr>
+       <tr>
+            <td align="left">
+            <h:selectBooleanCheckbox title="Enable operation trace"
+                    value="#{tradeconfig.actionTrace}"></h:selectBooleanCheckbox><b><font size="-1">Enable operation trace</font></b><br/>
+			<h:selectBooleanCheckbox title="Enable full trace"
+                    value="#{tradeconfig.trace}"></h:selectBooleanCheckbox> <b><font size="-1">Enable full trace</font></b>
+			</td>
+			<td>Enable DayTrader processing trace messages<br/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="right"> <h:commandButton id="submit" type="submit" value="Update Config"  action="#{tradeconfig.updateConfig}" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<table width="740" height="54" style="font-size: smaller">
+	<tbody>
+		<tr>
+			<td colspan="2">
+			<hr/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"></td>
+		</tr>
+		<tr>
+			<td bgcolor="#c93333" align="left" width="640" height="10"><b><font
+				color="#ffffff">DayTrader Configuration</font></b></td>
+			<td align="center" bgcolor="#000000" width="100" height="10"><font
+				color="#ffffff"><b>DayTrader</b></font></td>
+		</tr>
+	</tbody>
+</table>
+</h:form>
+</h:body>
+</html>

@@ -1,0 +1,181 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Web Primitives</title>
+</head>
+
+<body bgcolor="#FFFFFF" link="#000099" vlink="#000099">
+<hr/>
+<table width="740">
+	<tbody>
+		<tr>
+			<td>
+			<H3>Web Primitive Tests</H3>
+			</td>
+			<td align="right"></td>
+		</tr>
+	</tbody>
+</table>
+<hr/>
+
+
+<table border="1" width="740">
+	<tbody>
+		<tr>
+			<td colspan="1" bgcolor="#c93333" align="center"><b><font
+				color="#FFFFFF">Primitive Test Suite</font></b></td>
+		</tr>
+		<tr>
+		    <td>
+			<P>The Geronimo performance benchmark sample provides
+			a suite of web primitives. These primitives singularly test key
+			operations in the enterprise Java programming model. Links to each of
+			the web primitive tests are provided below along with a description
+			of each operation.</P>
+			<P>Note that some primitives below can have their main operations
+			repeated. These operations are marked with a red 
+			<font COLOR="#FF0000">*</font>. In order to adjust the repetition, change
+			the primitive iteration value in the Trade configuration page.<font></font></P>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<table border="1" width="740">
+	<tbody>
+		<tr>
+			<td colspan="2" bgcolor="#c93333" align="center"><b><font
+				color="#FFFFFF">Web Container ping suite</font></b></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a href="PingHtml.html"><font
+				face="Times New Roman">PingHtml</font></a></font></td>
+			<td><font size="-1">PingHtml is the most basic operation providing
+			access to a simple &quot;Hello World&quot; page of static HTML.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a href="servlet/ExplicitGC"
+				target="_self"><font face="Times New Roman">Explicit GC</font></a></font></td>
+			<td><font size="-1">Invoke Garbage Collection on AppServer. Reports
+			heap statistics after the GC has completed.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a href="servlet/PingServlet"
+				target="_self"><font face="Times New Roman">PingServlet</font></a></font></td>
+			<td><font size="-1">PingServlet tests fundamental dynamic HTML
+			creation through server side servlet processing.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a
+				href="servlet/PingServletWriter" target="_self"><font
+				face="Times New Roman">PingServletWriter</font></a> </font></td>
+			<td><font size="-1">PingServletWriter extends PingServlet by using a
+			PrintWriter for formatted output vs. the output stream used by
+			PingServlet.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a
+				href="servlet/PingServlet2Include" target="_self"><font
+				face="Times New Roman">PingServlet2Include</font></a></font><font
+				COLOR="#FF0000">*</font></td>
+			<td><font size="-1">PingServlet2Include tests response inclusion.
+			Servlet 1 includes the response of Servlet 2.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a
+				href="servlet/PingServlet2Servlet" target="_self"><font
+				face="Times New Roman">PingServlet2Servlet</font></a></font></td>
+			<td><font size="-1">PingServlet2Servlet tests request dispatching.
+			Servlet 1, the controller, creates a new JavaBean object forwards the
+			request with the JavaBean added to Servlet 2. Servlet 2 obtains
+			access to the JavaBean through the Servlet request object and
+			provides dynamic HTML output based on the JavaBean data.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a href="PingJsp.jsp">PingJSP</a></font></td>
+			<td><font size="-1">PingJSP tests a direct call to JavaServer Page
+			providing server-side dynamic HTML through JSP scripting.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a href="PingJspEL.jsp">PingJSPEL</a></font></td>
+			<td><font size="-1">PingJSPEL tests a direct call to JavaServer Page
+			providing server-side dynamic HTML through JSP scripting and the
+			usage of the new JSP 2.0 Expression Language.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a href="servlet/PingServlet2Jsp">PingServlet2JSP</a></font></td>
+			<td><font size="-1">PingServlet2JSP tests a commonly used design
+			pattern, where a request is issued to servlet providing server side
+			control processing. The servlet creates a JavaBean object with
+			dynamically set attributes and forwards the bean to the JSP through a
+			RequestDispatcher The JSP obtains access to the JavaBean and provides
+			formatted display with dynamic HTML output based on the JavaBean
+			data.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a href="servlet/PingSession1">PingHTTPSession1</a></font>
+			</td>
+			<td><font size="-1">PingHTTPSession1 - <b>SessionID</b> tests
+			fundamental HTTP session function by creating a unique session ID for
+			each individual user. The ID is stored in the users session and is
+			accessed and displayed on each user request.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><font size="-1"><a href="servlet/PingSession2">PingHTTPSession2</a></font></td>
+			<td><font size="-1">PingHTTPSession2 <b>session create/destroy </b>further
+			extends the previous test by invalidating the HTTP Session on every
+			5th user access. This results in testing HTTPSession create and
+			destroy</font></td>
+		</tr>
+		<tr>
+			<td align="center"><a href="servlet/PingSession3"><font size="-1">PingHTTPSession3</font></a></td>
+			<td><font size="-1">PingHTTPSession3 <b>large session object </b>tests
+			the servers ability to manage and persist large HTTPSession data
+			objects. The servlet creates a large custom java object. The class
+			contains multiple data fields and results in 2048 bytes of data. This
+			large session object is retrieved and stored to the session on each
+			user request.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><a href="servlet/PingJDBCRead"><font size="-1">PingJDBCRead</font></a><font
+				COLOR="#FF0000">*</font></td>
+			<td><font size="-1">PingJDBCRead tests fundamental servlet to JDBC
+			access to a database performing a single-row read using a prepared
+			SQL statment.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><a href="servlet/PingJDBCWrite"><font size="-1">PingJDBCWrite</font></a><font
+				COLOR="#FF0000">*</font></td>
+			<td><font size="-1">PingJDBCRead tests fundamental servlet to JDBC
+			access to a database performing a single-row write using a prepared
+			SQL statment.</font></td>
+		</tr>
+		<tr>
+			<td align="center"><a href="servlet/PingServlet2JNDI"><font size="-1">PingServlet2JNDI</font></a><font
+				COLOR="#FF0000">*</font></td>
+			<td><font size="-1">PingServlet2JNDI tests the fundamental J2EE
+			operation of a servlet allocating a JNDI context and performing a
+			JNDI lookup of a JDBC DataSource.</font></td>
+		</tr>		
+	</tbody>
+</table>
+</body>
+</html>

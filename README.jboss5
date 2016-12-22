@@ -1,0 +1,177 @@
+(C) Copyright 2009 The Apache Software Foundation.
+----------------------------------------------------------------------
+
+These are instructions for building and using daytrader with JBoss 5 standard configuration:
+
+1. Create a JMS definition file "daytrader-jboss5-destinations-service.xml", and copy to
+$JBOSS_INST_HOME/server/standard/deploy/ directory. The file has the fiollowing contents:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<server>
+  <mbean code="org.jboss.jms.server.destination.TopicService"
+      name="jboss.messaging.destination:service=Topic,name=jms/TradeStreamerTopic"
+      xmbean-dd="xmdesc/Topic-xmbean.xml">
+      <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+      <depends>jboss.messaging:service=PostOffice</depends>
+      <attribute name="JNDIName">TradeStreamerTopic</attribute>
+   </mbean>
+   <mbean code="org.jboss.jms.server.destination.QueueService"
+      name="jboss.messaging.destination:service=Queue,name=jms/TradeBrokerQueue"
+      xmbean-dd="xmdesc/Queue-xmbean.xml">
+      <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+      <depends>jboss.messaging:service=PostOffice</depends>
+      <attribute name="JNDIName">TradeBrokerQueue</attribute>
+   </mbean>
+</server>
+
+
+
+
+2. Create a datasource for daytrader. 
+For example, If using MySQL, create a mysql database called tradedb and load it with 
+the derby.sql.  Create a user named daytrader and grant the proper privileges as follows:
+
+    grant all on tradedb.* to daytrader identified by 'daytrader';
+    grant all on tradedb.* to daytrader@localhost identified by 'daytrader';
+
+Then create a JBoss mysql datasource file "daytrader-jboss5-mysql-ds.xml" with the following contents:
+
+<!-- mySQL datasource -->
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources>
+  <local-tx-datasource>
+    <!-- Don't change this datasource jndi name -->
+    <jndi-name>jdbc/TradeDataSource</jndi-name>
+    <connection-url>jdbc:mysql://localhost:3306/tradedb</connection-url>
+    <driver-class>com.mysql.jdbc.Driver</driver-class>
+    <user-name>daytrader</user-name>
+    <password>daytrader</password>
+    <exception-sorter-class-name>
+        org.jboss.resource.adapter.jdbc.vendor.MySQLExceptionSorter
+    </exception-sorter-class-name>    
+    <metadata>
+       <type-mapping>mySQL</type-mapping>
+    </metadata>
+  </local-tx-datasource>
+</datasources>
+
+then copy to $JBOSS_INST_HOME/server/standard/deploy/ directory.
+
+Sample of DB2 datasource:
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources>
+  <local-tx-datasource>
+    <jndi-name>jdbc/TradeDataSource</jndi-name>
+    <use-java-context>false</use-java-context>
+    <connection-url>jdbc:db2://localhost:50000/tradedb</connection-url>
+    <driver-class>com.ibm.db2.jcc.DB2Driver</driver-class>
+    <user-name>trade</user-name>
+    <password>trade</password>
+    <check-valid-connection-sql>select * from sysibm.tables</check-valid-connection-sql>
+    <metadata>
+            <type-mapping>DB2</type-mapping>
+    </metadata>
+  </local-tx-datasource>
+</datasources>
+
+Sample of Oracle datasource:
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources>
+  <local-tx-datasource>
+    <jndi-name>jdbc/TradeDataSource</jndi-name>
+    <connection-url>jdbc:oracle:thin:@localhost:1521:tradedb</connection-url>
+	 <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+    <user-name>trade</user-name>
+    <password>trade</password>
+    <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.OracleExceptionSorter</exception-sorter-class-name>
+      <metadata>
+         <type-mapping>Oracle10g</type-mapping>
+      </metadata>
+  </local-tx-datasource>
+</datasources>
+
+
+
+
+3. Rename these files manually:
+    # $DAYTRADER_SRC_HOME/modules/ejb/src/main/resources/META-INF/persistence.xml
+    --> $DAYTRADER_SRC_HOME/modules/ejb/src/main/resources/META-INF/persistence.xml.bak
+    
+    # $DAYTRADER_SRC_HOME/modules/ear/src/main/resources/META-INF/persistence.xml.jboss5
+    --> $DAYTRADER_SRC_HOME/modules/ear/src/main/resources/META-INF/persistence.xml
+    
+    
+    
+
+4. Use proper datasource jndi name according to your database vendor. Modify these files:
+    $DAYTRADER_SRC_HOME/modules/ear/src/main/resources/META-INF/persistence.xml
+    $DAYTRADER_SRC_HOME/modules/ejb/src/main/resources/META-INF/jboss.xml
+    $DAYTRADER_SRC_HOME/modules/web/src/main/webapp/WEB-INF/jboss-web.xml
+    
+
+
+
+5. Modify $DAYTRADER_SRC_HOME/modules/ejb/pom.xml to comment out OpenJPA PCEnhancer Ant task:
+        <!--<plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <configuration>
+                            <tasks>
+                                <path id="enhance.path.ref">
+                                    <fileset dir="${project.build.outputDirectory}">
+                                        <include name="**/*.class"/>
+                                    </fileset>
+                                </path>
+                                <pathconvert property="enhance.files"
+                                             refid="enhance.path.ref"
+                                             pathsep=" "/>
+                                <java classname="org.apache.openjpa.enhance.PCEnhancer">
+                                    <arg line="-p persistence.xml"/>
+                                    <arg line="${enhance.files}"/>
+                                    <classpath>
+                                        <path refid="maven.dependency.classpath"/>
+                                        <path refid="maven.compile.classpath"/>
+                                    </classpath>
+                                </java>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+
+
+
+6. Modify $DAYTRADER_SRC_HOME/modules/ear/pom.xml to comment out daytrader streamer client module
+Since not figure out how to make it work in jboss 5 :-/
+
+        <!--<dependency>
+            <groupId>org.apache.geronimo.daytrader</groupId>
+            <artifactId>daytrader-streamer</artifactId>
+            <version>${pom.version}</version>
+        </dependency>-->
+        
+        
+            <!--<javaModule>
+                <groupId>org.apache.geronimo.daytrader</groupId>
+                <artifactId>daytrader-streamer</artifactId>
+                <bundleFileName>streamer.jar</bundleFileName>
+                <includeInApplicationXml>true</includeInApplicationXml>
+            </javaModule>-->                             
+
+
+
+7. Build it to ear ball:
+    mvn clean install
+
+
+
+8. Finally, copy the $DAYTRADER_SRC_HOME/modules/ear/target/daytrader-ear-2.2-SNAPSHOT.ear
+to your $JBOSS_INST_HOME/server/standard/deploy/ directory.
+
+Good luck!

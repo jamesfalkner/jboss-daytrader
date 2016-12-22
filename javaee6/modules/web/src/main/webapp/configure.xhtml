@@ -1,0 +1,94 @@
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!-- Sample HTML file -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <title>Configuration and utilities</title>
+</h:head>
+
+<h:body BGCOLOR="#FFFFFF">
+<h:form>
+<table width="740" align="left" border="1">
+    <tbody>
+       <tr>
+            <td align="center" colspan="2">
+                <h3>Configuration Utilities </h3>
+            </td>
+        </tr>
+       <tr>
+            <td align="center"><b><font face="Times New Roman" size="-1">Benchmark
+                Configuration <br/>
+                Tools</font></b></td>
+            <td align="center"><b><font face="Times New Roman" size="-1"></font>Description
+            </b></td>
+        </tr>
+       <tr>
+            <td><h:commandLink action="#{tradeconfig.resetTrade}"><font face="Times New Roman"
+                                                         size="-1">Reset DayTrader<br/>
+                (to be done before each run)</font></h:commandLink></td>
+            <td>Reset the DayTrader runtime to a clean starting point by logging
+                off all users, removing new registrations and other general cleanup.
+                For consistent results this URL should be run <b>before each </b>Trade
+                run.</td>
+        </tr>
+       <tr>
+            <td><h:outputLink value="config.faces"><font face="Times New Roman"
+                                                      size="-1">Configure DayTrader run-time parameters</font></h:outputLink></td>
+            <td>This link provides an interface to set configuration parameters
+                that control DayTrader run-time characteristics such as using EJBs or
+                JDBC. This link also provides utilities such as setting the UID and
+                Password for a remote or protected database when using JDBC.</td>
+        </tr>
+       <tr>
+            <td><h:commandLink action="#{tradeconfig.buildDBTables}"><font
+                    face="Times New Roman" size="-1">(Re)-create
+                &nbsp;DayTrader&nbsp;Database Tables and Indexes</font></h:commandLink></td>
+            <td>This link is used to (a) initially create or (b) drop and re-create the
+                DayTrader tables. <b>A DayTrader database should exist before doing this action</b>, 
+                the existing DayTrader tables, if any, are dropped, then new
+                tables and indexes are created. <b>Please stop and re-start the Daytrader application 
+                (or your application server) after this action and then use the "Repopulate 
+                DayTrader Database" link below to repopulate the new database tables.</b></td>
+        </tr>
+       <tr>
+            <td><h:commandLink action="#{tradeconfig.buildDB}"><font
+                    face="Times New Roman" size="-1">(Re)-populate
+                &nbsp;DayTrader&nbsp;Database</font></h:commandLink></td>
+            <td>This link is used to initially populate or re-populate the
+                DayTrader database with fictitious users (uid:0, uid:1, ...) and
+                stocks (s:0, s:1, ...). First all existing users and stocks are
+                deleted (if any). The database is then populated with a new set of
+                DayTrader users and stocks. This option does not drop and recreate the 
+                Daytrader db tables.</td>
+        </tr>      
+       <tr>
+            <td><h:outputLink value="docs/tradeversion.html"><font size="-1">DayTrader
+                Version</font></h:outputLink></td>
+            <td>DayTrader application version and change history information</td>
+        </tr>
+    </tbody>
+</table>
+</h:form>
+</h:body>
+</html>

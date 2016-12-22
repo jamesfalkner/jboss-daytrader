@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>assemblies</artifactId>
+    <groupId>org.apache.geronimo.daytrader.javaee6</groupId>
+    <version>3.0-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>org.apache.geronimo.daytrader.javaee6</groupId>
+  <artifactId>daytrader-ear</artifactId>
+  
+  <packaging>ear</packaging>
+   <name>DayTrader :: Assemblies - Java EE 6 EAR</name>
+   <description>Daytrader Java EE 6 EAR </description>
+  
+  <dependencies>
+    <dependency>
+            <groupId>org.apache.geronimo.daytrader.javaee6</groupId>
+            <artifactId>utils</artifactId>            
+        </dependency>       
+       
+        <dependency>
+            <groupId>org.apache.geronimo.daytrader.javaee6</groupId>
+            <artifactId>entities</artifactId>
+             </dependency>              
+           <dependency>
+            <groupId>org.apache.geronimo.daytrader.javaee6</groupId>
+            <artifactId>web</artifactId>
+            <type>war</type>
+        </dependency>
+        </dependencies>
+  <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-ear-plugin</artifactId>               
+                <configuration>
+                    <displayName>DayTrader EAR</displayName>
+                    <description>DayTrader Stock Trading Performance Benchmark Sample</description>
+                    <version>5</version>
+                    <modules>
+                        <javaModule>
+                            <groupId>org.apache.geronimo.daytrader.javaee6</groupId>
+                            <artifactId>utils</artifactId>
+                             <uri>lib/utils.jar</uri>
+                        </javaModule>                       
+                        
+                        <javaModule>
+                            <groupId>org.apache.geronimo.daytrader.javaee6</groupId>
+                            <artifactId>entities</artifactId>
+                             <uri>lib/entities.jar</uri>
+                        </javaModule> 
+                        <webModule>
+                            <groupId>org.apache.geronimo.daytrader.javaee6</groupId>
+                            <artifactId>web</artifactId>
+                            <contextRoot>/daytrader</contextRoot>
+                            <bundleFileName>web.war</bundleFileName>
+                        </webModule>                
+                    </modules>
+                    <!--
+                    HACK: Include legal muck from maven-remote-resources-plugin
+                    -->
+                    <resourcesDir>${project.build.outputDirectory}</resourcesDir>
+                    <earSourceDirectory>${basedir}/src/main/resources</earSourceDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,209 @@
+<!--
+ Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Trade Order information</title>    
+</h:head>
+<h:body bgcolor="#ffffff" link="#000099" vlink="#000099">
+<h:form>
+<table height="54">
+  <tbody>
+    <tr>
+            <td bgcolor="#c93333" align="left" width="640" height="10" colspan="5"><b><font
+                color="#ffffff">DayTrader New Orders</font></b></td>
+            <td align="center" bgcolor="#000000" width="100" height="10"><font
+                color="#ffffff"><b>DayTrader</b></font></td>
+        </tr>
+        <tr align="left">
+            <td><b><h:outputLink value="tradehome.faces">Home</h:outputLink></b><b> </b></td>
+            <td><b><h:outputLink value="account.faces">Account</h:outputLink></b><b> </b></td>
+            <td><b><h:outputLink value="portfolio.faces">Portfolio</h:outputLink></b><b> </b></td>
+            <td><b><h:outputLink value="quote.faces">Quotes/Trade</h:outputLink></b></td>
+            <td><b><h:commandLink action="#{tradeapp.logout}">Logoff</h:commandLink></b></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td align="right" colspan="6">
+            <hr/>
+            <font color="#ff0000" size="-2"> <h:outputLabel value="#{accountdata.currentTime}" color="#ff0000" /></font></td>
+        </tr>
+       
+        <tr>
+            <td colspan="6" bgcolor="#ff0000"><blink><b><font color="#ffffff">Alert: The following Order(s) have completed.</font></b></blink></td>
+        </tr>
+        <tr align="center">
+            <td colspan="6">
+            <h:dataTable id="orders" value="#{accountdata.closedOrders}"
+            var="item" border="1">
+            <f:facet name="header">
+                <h:outputText value="Alert: The following Order(s) have completed."
+                    color="#ff0000" />
+            </f:facet>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="order id" />
+                </f:facet>
+                <h:outputText value="#{item.orderID}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="order status" />
+                </f:facet>
+                <h:outputText value="#{item.orderStatus}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="creation date" />
+                </f:facet>
+                <h:outputText value="#{item.openDate}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="completion date" />
+                </f:facet>
+                <h:outputText value="#{item.completionDate}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="txn fee" />
+                </f:facet>
+                <h:outputText value="#{item.orderFee}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="type" />
+                </f:facet>
+                <h:outputText value="#{item.orderType}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="symbol" />
+                </f:facet>
+                <h:outputText value="#{item.symbol}"></h:outputText>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="quantity" />
+                </f:facet>
+                <h:outputText value="#{item.quantity}"></h:outputText>
+            </h:column>
+        </h:dataTable>
+            </td>
+        </tr>
+       
+    </tbody>
+</table>
+
+<table width="650">
+    <tbody>
+        <tr>
+            <td>
+            <table width="100%">
+                <tbody>
+                    <tr>
+                        <td></td>
+                    </tr>
+                   
+                    <tr>
+                        <td align="left" bgcolor="#cccccc"><b>New Order</b></td>
+                    </tr>
+                    <tr>
+                        <td align="left"><font color="#cc0000"><b><br/>
+                        Order <h:outputText value="#{orderdata.orderData.orderID}" /></b> to <b><h:outputText value="#{orderdata.orderData.orderType}" /> <h:outputText value="#{orderdata.orderData.quantity}" /></b> shares of <b><h:outputLink value="docs/glossary.html">symbol:</h:outputLink></b> has been submitted for processing. </font><br/>
+                        <br/>
+                        <font color="#000000">Order <font color="#000000"><b><h:outputText value="#{orderdata.orderData.orderID}" /></b></font> details:</font></td>
+                    </tr>
+                    <tr>
+                        <td align="center">
+                        <table border="1" style="font-size: smaller">
+                            <tbody>
+                                <tr align="center">
+                                    <td><a href="docs/glossary.html">order ID</a></td>
+                                    <td><a href="docs/glossary.html">order status</a></td>
+                                    <td><a href="docs/glossary.html">creation date</a></td>
+                                    <td><a href="docs/glossary.html">completion date</a></td>
+                                    <td><a href="docs/glossary.html">txn fee</a></td>
+                                    <td><a href="docs/glossary.html">type</a></td>
+                                    <td><a href="docs/glossary.html">symbol</a></td>
+                                    <td><a href="docs/glossary.html">quantity</a></td>
+                                </tr>
+                                <tr align="center" bgcolor="#fafcb6">
+                                    <td><h:outputText value="#{orderdata.orderData.orderID}" /></td>
+                                    <td><h:outputText value="#{orderdata.orderData.orderStatus}" /></td>
+                                    <td><h:outputText value="#{orderdata.orderData.openDate}" /></td>
+                                    <td><h:outputText value="#{orderdata.orderData.completionDate}" /></td>
+                                    <td><h:outputText value="#{orderdata.orderData.orderFee}" /></td>
+                                    <td><h:outputText value="#{orderdata.orderData.orderType}" /></td>
+                                    <td><h:outputText value="#{orderdata.orderData.symbol}" /></td>
+                                    <td><h:outputText value="#{orderdata.orderData.quantity}" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table height="54" style="font-size: smaller">
+  <tbody>
+        <tr>
+            <td colspan="2">
+            <hr/>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+            <table width="100%" style="font-size: smaller">
+                <tbody>
+                    <tr>
+                        <td>Note: Click any <a href="docs/glossary.html">symbol</a> for a quote or to trade.</td>
+                        <td align="right">
+                       <h:commandButton id="submit" type="submit" value="quotes" action="#{quotedata.getQuotesBySymbols}" />
+                        <h:inputText id="symbols" value="#{quotedata.symbols}" required="true"><f:validateLength minimum="1" maximum="40" /></h:inputText></td>
+                    </tr>
+                </tbody>
+            </table>
+            </td>
+        </tr>
+        <tr>
+            <td bgcolor="#c93333" align="left" width="640" height="10"><b><font
+                color="#ffffff">DayTrader New Orders</font></b></td>
+            <td align="center" bgcolor="#000000" width="100" height="10"><font
+                color="#ffffff"><b>DayTrader</b></font></td>
+        </tr>
+    </tbody>
+</table>
+</h:form>
+</h:body>
+</html>

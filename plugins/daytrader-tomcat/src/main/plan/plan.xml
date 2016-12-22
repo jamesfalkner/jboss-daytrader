@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<!-- $Rev: 1055368 $ $Date: 2011-01-05 17:24:04 +0800 (Wed, 05 Jan 2011) $ -->
+
+<application xmlns="http://geronimo.apache.org/xml/ns/j2ee/application-1.2">
+
+    <!--
+     **
+     **  DayTrader Web War Module Definition
+     **
+    -->
+    <module>
+        <web>web.war</web>
+        <web-app xmlns="http://geronimo.apache.org/xml/ns/j2ee/web-2.0.1">
+            <service-ref>
+                <service-ref-name>service/Trade</service-ref-name>
+                <port>
+                    <port-name>TradeWSServices</port-name>
+                    <protocol>http</protocol>
+                    <host>localhost</host>
+                    <port>8080</port>
+                    <uri>/daytrader/services/TradeWSServices</uri>
+                </port>
+            </service-ref>
+        </web-app>
+    </module>
+
+
+    <!--
+     **
+     **  DayTrader EJB Jar Module Definition
+     **
+    
+    <module>
+        <ejb>dt-ejb.jar</ejb>
+        <openejb-jar xmlns="http://openejb.apache.org/xml/ns/openejb-jar-2.2">
+
+            <enterprise-beans>
+                <message-driven>
+                    <ejb-name>DTBroker3MDB</ejb-name>
+                    <resource-adapter>
+                        <resource-link>TradeJMSResources</resource-link>
+                    </resource-adapter>
+                </message-driven>
+                <message-driven>
+                    <ejb-name>DTStreamer3MDB</ejb-name>
+                    <resource-adapter>
+                        <resource-link>TradeJMSResources</resource-link>
+                    </resource-adapter>
+                </message-driven>
+            </enterprise-beans>-->
+
+            <!--
+             **
+             ** The following section can be used to override the settings in the
+             ** persistence.xml file. For instance, if you choose to deploy DayTrader
+             ** against a DB2 database, the DBDictionary can be specified here.
+             **
+            -->
+
+            <!--<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+                <persistence-unit name="daytrader">
+                    <properties>
+                        <property name="openjpa.jdbc.DBDictionary" value="db2" />
+                        <property name="openjpa.jdbc.DBDictionary" value="derby" />
+                    </properties>
+                </persistence-unit>
+            </persistence>
+        </openejb-jar>
+    </module>-->
+
+
+    <!--<module>
+        <java>streamer.jar</java>
+        <application-client xmlns="http://geronimo.apache.org/xml/ns/j2ee/application-client-2.0">
+            <client-environment xmlns="http://geronimo.apache.org/xml/ns/deployment-1.2">
+                <moduleId>
+                    <groupId>org.apache.geronimo.daytrader</groupId>
+                    <artifactId>daytrader-streamer-client</artifactId>
+                    <version>2.2.1-SNAPSHOT</version>
+                    <type>car</type>
+                </moduleId>
+            </client-environment>
+            <server-environment xmlns="http://geronimo.apache.org/xml/ns/deployment-1.2">
+                <moduleId>
+                    <groupId>org.apache.geronimo.daytrader</groupId>
+                    <artifactId>daytrader-streamer-client-server</artifactId>
+                    <version>2.2.1-SNAPSHOT</version>
+                    <type>car</type>
+                </moduleId>
+            </server-environment>
+            <resource>
+                <external-rar xmlns:dep="http://geronimo.apache.org/xml/ns/deployment-1.2">
+                    <dep:groupId>org.apache.geronimo.modules</dep:groupId>
+                    <dep:artifactId>geronimo-activemq-ra</dep:artifactId>
+                    <dep:type>rar</dep:type>
+                </external-rar>
+                <connector xmlns="http://geronimo.apache.org/xml/ns/j2ee/connector-1.2">
+                    <resourceadapter>
+                        <resourceadapter-instance>
+                            <resourceadapter-name>ActiveMQ RA</resourceadapter-name>
+                            <config-property-setting name="ServerUrl">tcp://localhost:61616</config-property-setting>
+                            <config-property-setting name="UserName">geronimo</config-property-setting>
+                            <config-property-setting name="Password">geronimo</config-property-setting>
+                            <workmanager>
+                                <gbean-link>DefaultWorkManager</gbean-link>
+                            </workmanager>
+                        </resourceadapter-instance>
+                        <outbound-resourceadapter>
+                            <connection-definition>
+                                <connectionfactory-interface>javax.jms.ConnectionFactory</connectionfactory-interface>
+                                <connectiondefinition-instance>
+                                    <name>jms/TopicConnectionFactory</name>
+                                    <implemented-interface>javax.jms.QueueConnectionFactory</implemented-interface>
+                                    <implemented-interface>javax.jms.TopicConnectionFactory</implemented-interface>
+                                    <connectionmanager>
+                                        <xa-transaction>
+                                            <transaction-caching/>
+                                        </xa-transaction>
+                                        <single-pool>
+                                            <max-size>10</max-size>
+                                            <blocking-timeout-milliseconds>5000</blocking-timeout-milliseconds>
+                                            <match-one/>
+                                        </single-pool>
+                                    </connectionmanager>
+                                </connectiondefinition-instance>
+                            </connection-definition>
+                        </outbound-resourceadapter>
+                    </resourceadapter>
+
+                    <adminobject>
+                        <adminobject-interface>javax.jms.Topic</adminobject-interface>
+                        <adminobject-class>org.activemq.message.ActiveMQTopic</adminobject-class>
+                        <adminobject-instance>
+                            <message-destination-name>jms/TradeStreamerTopic</message-destination-name>
+                            <config-property-setting name="PhysicalName">TradeStreamerTopic</config-property-setting>
+                        </adminobject-instance>
+                    </adminobject>
+                </connector>
+            </resource>
+        </application-client>
+    </module>
+
+    <module>
+        <java>wsappclient.jar</java>
+        <application-client xmlns="http://geronimo.apache.org/xml/ns/j2ee/application-client-2.0">
+            <client-environment xmlns="http://geronimo.apache.org/xml/ns/deployment-1.2">
+                <moduleId>
+                    <groupId>org.apache.geronimo.daytrader</groupId>
+                    <artifactId>daytrader-ws-client</artifactId>
+                    <version>2.2.1-SNAPSHOT</version>
+                    <type>car</type>
+                </moduleId>
+            </client-environment>
+            <server-environment xmlns="http://geronimo.apache.org/xml/ns/deployment-1.2">
+                <moduleId>
+                    <groupId>org.apache.geronimo.daytrader</groupId>
+                    <artifactId>daytrader-ws-client-server</artifactId>
+                    <version>2.2.1-SNAPSHOT</version>
+                    <type>car</type>
+                </moduleId>
+            </server-environment>
+        </application-client>
+    </module>-->
+
+</application>

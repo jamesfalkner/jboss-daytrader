@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements.  See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to You under the Apache License, Version 2.0
+    (the "License"); you may not use this file except in compliance with
+    the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+
+<application xmlns="http://geronimo.apache.org/xml/ns/j2ee/application-2.0">
+    <environment>
+        <moduleId>
+            <groupId>org.apache.geronimo.daytrader</groupId>
+            <artifactId>daytrader</artifactId>
+            <version>${project.version}</version>
+            <type>car</type>
+        </moduleId>
+        <!--
+         **
+         ** The following section describes what other modules this application has dependencies on.  Since we will be 
+         ** accessing our tables using the internal Derby database we need the system-database dependency.  Also, JPA is 
+         ** used as a persistence mechanism so we have a dependency on the openjpa module as well.  
+         **
+         ** The dependency on Yoko is required but should be supplied by default.  This is just silly.
+        -->
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.geronimo.configs</groupId>
+                <artifactId>openjpa2</artifactId>
+                <type>car</type>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.geronimo.configs</groupId>
+                <artifactId>j2ee-corba-yoko</artifactId>
+                <type>car</type>
+            </dependency>
+            <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>sqljdbc4</artifactId>
+                <version>2.0</version>
+                <type>jar</type>
+            </dependency>
+
+        </dependencies>
+    </environment>
+
+    <!--
+     **
+     **  DayTrader Web War Module Definition  
+     **
+    -->
+    <module>
+        <web>web.war</web>
+        <web-app xmlns="http://geronimo.apache.org/xml/ns/j2ee/web-2.0.1">
+            <service-ref>
+                <service-ref-name>service/Trade</service-ref-name>
+                <port>
+                    <port-name>TradeWSServices</port-name>
+                    <protocol>http</protocol>
+                    <host>localhost</host>
+                    <port>8080</port>
+                    <uri>/daytrader/services/TradeWSServices</uri>
+                </port>
+            </service-ref>            
+        </web-app>
+    </module>
+
+
+    <ext-module>
+        <connector>TradeDataSource</connector>
+        <external-path xmlns:dep="http://geronimo.apache.org/xml/ns/deployment-1.2">
+            <dep:groupId>org.tranql</dep:groupId>
+            <dep:artifactId>tranql-connector-sqlserver2005-xa</dep:artifactId>
+            <dep:type>rar</dep:type>
+        </external-path>
+        <connector xmlns="http://geronimo.apache.org/xml/ns/j2ee/connector-1.2">
+
+
+            <resourceadapter>
+                <outbound-resourceadapter>
+                    <connection-definition>
+                        <connectionfactory-interface>javax.sql.DataSource</connectionfactory-interface>
+                        <connectiondefinition-instance>
+                            <name>jdbc/TradeDataSource</name>
+                            <config-property-setting name="UserName">trade</config-property-setting>
+                            <config-property-setting name="Password">trade</config-property-setting>
+                            <config-property-setting name="PortNumber">1433</config-property-setting>
+                            <config-property-setting name="ServerName">localhost</config-property-setting>
+                            <config-property-setting name="DatabaseName">tradedb</config-property-setting>
+                            <connectionmanager>
+                            <!-- By default, SQL Server does not enable XA feature, you need to enable it before running daytrader -->
+                                <xa-transaction>
+                                    <transaction-caching/>
+                                </xa-transaction>
+                                <single-pool>
+                                    <max-size>100</max-size>
+                                    <min-size>0</min-size>
+                                    <blocking-timeout-milliseconds>5000</blocking-timeout-milliseconds>
+                                    <idle-timeout-minutes>30</idle-timeout-minutes>
+                                    <match-one/>
+                                </single-pool>
+                            </connectionmanager>
+                        </connectiondefinition-instance>
+                        <connectiondefinition-instance>
+                            <name>jdbc/NoTxTradeDataSource</name>
+                            <config-property-setting name="UserName">trade</config-property-setting>
+                            <config-property-setting name="Password">trade</config-property-setting>
+                            <config-property-setting name="PortNumber">1433</config-property-setting>
+                            <config-property-setting name="ServerName">localhost</config-property-setting>
+                            <config-property-setting name="DatabaseName">tradedb</config-property-setting>
+                            <connectionmanager>
+                                <no-transaction/>
+                                <single-pool>
+                                    <max-size>10</max-size>
+                                    <min-size>0</min-size>
+                                    <blocking-timeout-milliseconds>5000</blocking-timeout-milliseconds>
+                                    <idle-timeout-minutes>30</idle-timeout-minutes>
+                                    <match-one/>
+                                </single-pool>
+                            </connectionmanager>
+                        </connectiondefinition-instance>
+                    </connection-definition>
+                </outbound-resourceadapter>
+            </resourceadapter>
+        </connector>
+    </ext-module>
+
+
+    <ext-module>
+        <connector>TradeJMS</connector>
+        <external-path xmlns:dep="http://geronimo.apache.org/xml/ns/deployment-1.2">
+            <dep:groupId>org.apache.geronimo.modules</dep:groupId>
+            <dep:artifactId>geronimo-activemq-ra</dep:artifactId>
+            <dep:type>rar</dep:type>
+        </external-path>
+        <connector xmlns="http://geronimo.apache.org/xml/ns/j2ee/connector-1.2">
+
+            <resourceadapter>
+                <!-- how to connect to the JMS Server -->
+                <resourceadapter-instance>
+                    <resourceadapter-name>TradeJMSResources</resourceadapter-name>
+                    <config-property-setting name="ServerUrl">tcp://localhost:61616</config-property-setting>
+                    <config-property-setting name="UserName">not needed</config-property-setting>
+                    <config-property-setting name="Password">not needed</config-property-setting>
+                    <workmanager>
+                        <gbean-link>DefaultWorkManager</gbean-link>
+                    </workmanager>
+                </resourceadapter-instance>
+                <!-- defines a ConnectionFactory -->
+                <outbound-resourceadapter>
+	                    <connection-definition>
+                        <connectionfactory-interface>javax.jms.ConnectionFactory</connectionfactory-interface>
+                        <connectiondefinition-instance>
+                            <name>jms/QueueConnectionFactory</name>
+                            <implemented-interface>javax.jms.QueueConnectionFactory</implemented-interface>
+                            <connectionmanager>
+                                <xa-transaction>
+                                    <transaction-caching/>
+                                </xa-transaction>
+                                <single-pool>
+                                    <max-size>50</max-size>
+                                    <min-size>0</min-size>
+                                    <blocking-timeout-milliseconds>5000</blocking-timeout-milliseconds>
+                                    <idle-timeout-minutes>0</idle-timeout-minutes>
+                                    <match-one/>
+                                </single-pool>
+                            </connectionmanager>
+                        </connectiondefinition-instance>
+                    </connection-definition>
+                    <connection-definition>
+                        <connectionfactory-interface>javax.jms.ConnectionFactory</connectionfactory-interface>
+                        <connectiondefinition-instance>
+                            <name>jms/TopicConnectionFactory</name>
+                            <implemented-interface>javax.jms.TopicConnectionFactory</implemented-interface>
+                            <connectionmanager>
+                                <xa-transaction>
+                                    <transaction-caching/>
+                                </xa-transaction>
+                                <single-pool>
+                                    <max-size>50</max-size>
+                                    <min-size>0</min-size>
+                                    <blocking-timeout-milliseconds>5000</blocking-timeout-milliseconds>
+                                    <idle-timeout-minutes>0</idle-timeout-minutes>
+                                    <match-one/>
+                                </single-pool>
+                            </connectionmanager>
+                        </connectiondefinition-instance>
+                    </connection-definition>
+                </outbound-resourceadapter>
+            </resourceadapter>
+
+            <adminobject>
+                <adminobject-interface>javax.jms.Topic</adminobject-interface>
+                <adminobject-class>org.activemq.message.ActiveMQTopic</adminobject-class>
+                <adminobject-instance>
+                    <message-destination-name>jms/TradeStreamerTopic</message-destination-name>
+                    <config-property-setting name="PhysicalName">TradeStreamerTopic</config-property-setting>
+                </adminobject-instance>
+            </adminobject>
+
+            <adminobject>
+                <adminobject-interface>javax.jms.Queue</adminobject-interface>
+                <adminobject-class>org.activemq.message.ActiveMQQueue</adminobject-class>
+                <adminobject-instance>
+                    <message-destination-name>jms/TradeBrokerQueue</message-destination-name>
+                    <config-property-setting name="PhysicalName">TradeBrokerQueue</config-property-setting>
+                </adminobject-instance>
+            </adminobject>
+
+        </connector>
+    </ext-module>
+</application>

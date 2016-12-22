@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>javaee6</artifactId>
+    <groupId>org.apache.geronimo.daytrader</groupId>
+    <version>3.0-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>org.apache.geronimo.daytrader.javaee6</groupId>
+  <artifactId>assemblies</artifactId>
+  <packaging>pom</packaging>
+  <name>DayTrader :: Java EE 6 :: Assemblies</name>
+  <description>Daytrader Java EE 6 Assemblies</description>
+  
+   <modules>
+    <module>daytrader-ear</module>
+  </modules>
+</project>

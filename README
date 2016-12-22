@@ -1,0 +1,121 @@
+(C) Copyright 2006,2008 The Apache Software Foundation.
+----------------------------------------------------------------------
+
+The code in this directory contains the code for the benchmark sample called
+Day Trader.  This sample was contributed by IBM to the Apache Geronimo project
+under the ASF license to further functional and performance testing of Geronimo.  
+
+-----------
+|  BUILD  |
+-----------
+To build DayTrader, you need to have JDK 6 and Maven 2.0.9 or later
+installed, which can be found at http://maven.apache.org.
+Once installed you can build DayTrader by executing the following command
+from the dayTrader root directory (the directory containing this README):
+
+        mvn clean install
+
+
+
+
+-------------
+|  INSTALL  |
+-------------
+
+You will need to create the database and populate the initial data into the
+database.  Make sure Geronimo is started and the GERONIMO_HOME environment
+variable is defined.
+
+1. If you want to use the embedded Apache Derby database, you can populate
+tables and data by visiting http://localhost:8080/daytrader/ in your browser.
+
+2. If you want to use a DB2 database as a back-end database provider, please
+copy DB2 jdbc drivers to server's repository and then build and install the 
+daytrader-db2-datasource plugin before installing the daytrader-jetty/tomcat
+plugin.    
+
+3. If you want to use an Oracle database as a back-end database provider,
+please copy the ojdbc14.jar file from your oracle server to
+$GERONIMO_HOME\repository\oracle\ojdbc14\10g and rename the ojdbc14.jar to a
+maven-recognizable format like ojdbc14-10g.jar.  Then build and install the 
+daytrader-oracle-datasource plugin before installing the daytrader-jetty/tomcat
+plugin.
+
+
+Deployer
+--------
+1. Create the sample's database tables according to your database provider:
+   - If you use the embedded Apache Derby database provider, please perform the
+     following steps:
+      a. Ensure you have JAVA_HOME and GERONIMO_HOME environment variables set
+      b. Execute these commands from a command prompt:
+           cd $DAYTRADER_HOME/bin/dbscripts/derby
+           createDerbyDB.[bat|sh]
+  - If you use another back-end database provider, please perform the following
+    steps:
+    To create the database tables:
+      a. Set up a database or reuse an existing database. For this sample, a
+         database named "tradedb" is used.
+      b. Create a user with a user name of "trade" and a password of "trade".
+         Grant appropriate permissions to this user.
+      c. Load the database schema for this user by running the following at a
+         DBM command window:
+         - For IBM DB2 Express-C and Universal Database (UDB):
+              db2 connect to tradedb
+              db2 -tvf bin\dbscripts\db2\Table.ddl
+         - For Oracle:
+              sqlplus trade/trade@tradedb @bin\dbscripts\oracle\Table.ddl
+    To prep the datasource:
+      a. Download your DBM's JDBC driver from an authorized source.
+      b. Copy this driver to the Geronimo repository, and rename it to a
+         maven-recognizable format.  For example,
+         - For IBM DB2 Express-C and Universal Database (UDB):
+              $GERONIMO_HOME/repository/
+         - For Oracle:
+              $GERONIMO_HOME/repository/oracle/ojdbc14/10g/ojdbc14-10g.jar
+      c. Modify the database resource adapter configuration in your XML plan
+         (see below) to your database environment.  For example, UserName,
+         Password, PortNumber, DatabaseName, ServerName.
+
+2. Use the deployer tool to install the application:
+   - Execute these commands from a command prompt:
+         cd $GERONIMO_HOME/bin
+         deploy.[bat|sh] deploy $DAYTRADER_HOME/modules/ear/target/daytrader-ear-2.2-SNAPSHOT.ear $DAYTRADER_HOME/plans/<My plan>
+           where <My plan> is
+               For Apache Derby:  dayTrader-derby-plan.xml
+               For IBM DB2 v9.1:  dayTrader-db2-9.1-XA-plan.xml
+               For Oracle:        dayTrader-oracle-XA-plan.xml
+               For MS SQL Server: dayTrader-sqlserver-plan.xml
+
+3. Use the admin console to install the application:
+   - Under Applications -> Deploy new
+     a. Select the EAR file indicated above as your archive.
+     b. Select the XML file indicated above as your plan.
+     c. Ensure the checkbox is selected to "start app after install".
+
+
+---------
+|  RUN  |
+---------
+1. Access the dayTrader application at:
+         http://<hostname>:<port>/daytrader (This is for traditional servlet and jsp)
+         http://<hostname>:<port>/daytrader/index.faces(This is for JSF)
+2. Before you begin using DayTraader, theres are a couple setup steps:
+   - Populate the database with a set of fictional users, stocks, prices, etc.
+     by selecting:
+         'Configuration -> (Re)-populate Trade Database'.
+     Note: This may take a minute or two depending on your database server.
+   - After populating the database, the DayTrader Configuration options will
+     appear.  Just accept the defaults.
+3. Now you can begin trading by going to:
+         'Trading & Portfolios'   
+
+---------------
+|  UNINSTALL  |
+---------------
+To uninstall DayTrader, issue the following commands:
+
+1. If you installed DayTrader as an application (EAR) using the deployer:
+      deploy.[bat|sh] undeploy org.apache.geronimo.daytrader/daytrader/3.0-SNAPSHOT/car
+
+

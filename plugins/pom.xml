@@ -40,7 +40,7 @@
                 </property>
             </activation>
             <modules>
-                <module>daytrader-derby-datasource</module>        	
+              <!--  <module>daytrader-derby-datasource</module>    -->    	
                 <module>daytrader-jms</module>
                 <!--<module>daytrader-jetty</module>
                 <module>daytrader-tomcat</module>-->
@@ -94,15 +94,13 @@
 
     <build>
         <plugins>
-            <plugin>
+<!--             <plugin>
                 <groupId>org.apache.geronimo.buildsupport</groupId>
                 <artifactId>car-maven-plugin</artifactId>
                 <version>${geronimoVersion}</version>
-                <!-- Install as extention to allow 'car' packaging to be used. -->
                 <extensions>true</extensions>
                 <configuration>
                     <archive>
-                        <!-- Do not include META-INF/maven to avoid long file problems on windows -->
                         <addMavenDescriptor>false</addMavenDescriptor>
                     </archive>
                     <url>http://geronimo.apache.org/</url>
@@ -121,8 +119,7 @@
                     <commonInstance>
                         <plugin-artifact>
                         <geronimo-version>${geronimoVersion}</geronimo-version>
-                            <!--<geronimo-version>2.2</geronimo-version>
-                            <geronimo-version>2.2.1-SNAPSHOT</geronimo-version>-->
+                    
                             <jvm-version>1.5</jvm-version>
                             <jvm-version>1.6</jvm-version>
                             <source-repository>~/.m2/repository/</source-repository>
@@ -132,7 +129,7 @@
                     </commonInstance>
                 </configuration>
             </plugin>
-
+ -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>

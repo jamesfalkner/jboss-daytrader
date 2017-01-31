@@ -335,7 +335,7 @@
             <modules>
                 <!-- Daytrader Java EE 6 -->
                <module>javaee6</module>  
-               <module>plugins</module> 
+           <!--    <module>plugins</module> --> 
             </modules>
         </profile>
         <profile>

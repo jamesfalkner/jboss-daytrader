@@ -52,7 +52,7 @@ public class PingServlet2MDBTopic extends HttpServlet {
 
     private static int hitCount;
 
-    @Resource(name = "jms/TopicConnectionFactory")
+    @Resource(name = "/ConnectionFactory")
     private ConnectionFactory topicConnectionFactory;
 
     @Resource(name = "jms/TradeStreamerTopic")

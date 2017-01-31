@@ -39,7 +39,7 @@
     </scm>
 
     <properties>        
-        <geronimoVersion>3.0.2-SNAPSHOT</geronimoVersion>
+        <geronimoVersion>3.0.1</geronimoVersion>
         <!-- set siteId to artifactId for any "top level" project rooting a website -->
         <siteId>daytrader</siteId>
         <openjpaVersion>2.1.0</openjpaVersion>

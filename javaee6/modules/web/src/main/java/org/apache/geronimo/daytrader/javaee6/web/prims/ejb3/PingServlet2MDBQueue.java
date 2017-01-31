@@ -52,7 +52,7 @@ public class PingServlet2MDBQueue extends HttpServlet {
 
     private static int hitCount;
 
-    @Resource(name = "/ConnectionFactory")
+    @Resource(name = "jms/QueueConnectionFactory")
     private ConnectionFactory queueConnectionFactory;
 
     @Resource(name = "jms/TradeBrokerQueue")

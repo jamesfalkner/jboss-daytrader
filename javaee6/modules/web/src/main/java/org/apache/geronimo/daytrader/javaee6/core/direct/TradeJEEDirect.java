@@ -2040,7 +2040,7 @@ stmt = getStatement(conn, createAccountSQL);
         }
 
         try {
-            qConnFactory = (ConnectionFactory) context.lookup("java:comp/env/jms/QueueConnectionFactory");
+            qConnFactory = (ConnectionFactory) context.lookup("java:comp/env/ConnectionFactory");
         } catch (Exception e) {
             Log
                 .error("TradeDirect:init  Unable to locate QueueConnectionFactory.\n\t -- Asynchronous mode will not work correctly and Quote Price change publishing will be disabled");
@@ -2071,7 +2071,7 @@ ex.printStackTrace();
         }
 
         try {
-            tConnFactory = (ConnectionFactory) context.lookup("java:comp/env/jms/TopicConnectionFactory");
+            tConnFactory = (ConnectionFactory) context.lookup("java:comp/env/ConnectionFactory");
         } catch (Exception e) {
             Log
                 .error("TradeDirect:init  Unable to locate TopicConnectionFactory.\n\t -- Asynchronous mode will not work correctly and Quote Price change publishing will be disabled");

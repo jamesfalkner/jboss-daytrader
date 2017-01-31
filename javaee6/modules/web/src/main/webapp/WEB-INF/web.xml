@@ -85,14 +85,14 @@
         <res-type>javax.jms.QueueConnectionFactory</res-type>
         <res-auth>Container</res-auth>
 	<mapped-name>QueueConnectionFactory</mapped-name> 
-	<lookup-name>java:/jms/QueueConnectionFactory</lookup-name>
+	<lookup-name>java:/ConnectionFactory</lookup-name>
     </resource-ref>
     <resource-ref>
         <res-ref-name>jms/TopicConnectionFactory</res-ref-name>
         <res-type>javax.jms.TopicConnectionFactory</res-type>
         <res-auth>Container</res-auth>
 	<mapped-name>TopicConnectionFactory</mapped-name>
-	<lookup-name>java:/jms/TopicConnectionFactory</lookup-name>
+	<lookup-name>java:/ConnectionFactory</lookup-name>
     </resource-ref>   
      <resource-ref>
         <res-ref-name>jms/TradeBrokerQueue</res-ref-name>

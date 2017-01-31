@@ -262,7 +262,7 @@
     </dependencyManagement>
 
     <build>
-        <pluginManagement>
+<!--         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.geronimo.buildsupport</groupId>
@@ -276,7 +276,7 @@
                 
             </plugins>
         </pluginManagement>
-
+ -->
         <plugins>       
 
             <!--<plugin>

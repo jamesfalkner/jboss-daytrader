@@ -37,7 +37,7 @@
             <TD bgcolor="#c93333" align="left" width="640" height="10" colspan=5><B><FONT
                 color="#ffffff">DayTrader Home</FONT></B></TD>
             <TD align="center" bgcolor="#000000" width="100" height="10"><FONT
-                color="#ffffff"><B>DayTrader</B></FONT></TD>
+                color="#ffffff"><B><%= java.net.InetAddress.getLocalHost().getHostName() %></B></FONT></TD>
         </TR>
         <TR align="left">
             <TD><B><A href="app?action=home">Home</A></B><B> </B></TD>

@@ -1,0 +1,1 @@
+<div style="background: yellow;">Hostname: <%= java.net.InetAddress.getLocalHost().getHostName() %></div>

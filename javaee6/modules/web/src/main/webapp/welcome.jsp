@@ -26,7 +26,7 @@
     <TBODY>
         <TR>
             <TD bgcolor="#c93333" align="left" width="640" height="10"><B><FONT
-                color="#ffffff">DayTrader Login</FONT></B></TD>
+                color="#ffffff">DayTrader Login - HOST: <code><%= java.net.InetAddress.getLocalHost().getHostName() %></code></FONT></B></TD>
             <TD align="center" bgcolor="#000000" width="100" height="10"><FONT
                 color="#ffffff"><B>DayTrader</B></FONT></TD>
         </TR>

@@ -240,15 +240,14 @@ objects:
           terminationMessagePath: /dev/termination-log
           volumeMounts:
           - mountPath: /var/lib/mysql/data
-            name: web-mysql-pvol
+            name: web-mysql-data
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         securityContext: {}
         terminationGracePeriodSeconds: 60
         volumes:
-        - name: web-mysql-pvol
-          persistentVolumeClaim:
-            claimName: web-mysql-claim
+        - name: web-mysql-data
+          emptyDir: {}
     test: false
     triggers:
     - imageChangeParams:
@@ -305,16 +304,6 @@ objects:
       name: web
       weight: 100
     wildcardPolicy: None
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: web-mysql-claim
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: 512Mi
 parameters:
 - description: Maven mirror url. If nexus is deployed locally, use nexus url (e.g. http://nexus.ci:8081/content/groups/public/)
   displayName: Maven mirror url

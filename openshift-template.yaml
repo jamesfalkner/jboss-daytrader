@@ -66,6 +66,8 @@ objects:
   kind: DeploymentConfig
   metadata:
     name: web
+    labels:
+      application: web
   spec:
     replicas: 1
     selector:
@@ -83,6 +85,7 @@ objects:
       metadata:
         labels:
           deploymentConfig: web
+          application: web
       spec:
         containers:
         - env:

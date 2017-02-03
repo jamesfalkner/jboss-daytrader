@@ -48,7 +48,8 @@ If you wish to switch to using JBoss EAP 7, simply update the BuildConfig to bui
 
     oc patch bc/web -p '{"spec":{"strategy":{"sourceStrategy":{"from":{"name":"jboss-eap70-openshift:1.4"}}}}}'
 
-to switch back, just roll back to the previous deployment (e.g. `oc rollback web`).
+This will cause a new build and eventually new deployment to be kicked off. If it does not, you can force it with `oc start-build web`.
+To switch back, just roll back to the previous deployment (e.g. `oc rollback web`).
 
 Once the app is deployed, you can access it via the deployed OpenShift Route, with `/daytrader` appended (this is the
 context to which the app is deployed in JBoss EAP). For example, if your project is named `daytrader` and your OpenShift

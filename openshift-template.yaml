@@ -52,7 +52,6 @@ objects:
           value: ${MAVEN_MIRROR_URL}
         - name: ARTIFACT_DIR
           value: javaee6/assemblies/daytrader-ear/target
-        forcePull: true
         from:
           kind: ImageStreamTag
           name: jboss-eap64-openshift:1.4

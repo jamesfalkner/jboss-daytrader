@@ -79,7 +79,7 @@ public class TradeBuildDB {
                 || (TradeConfig.getRunTimeMode() == TradeConfig.JPA)) {
                 tradeDB = new TradeJDBCDirect();
             } else {
-                tradeDB = new TradeJEEDirect();
+                tradeDB = new TradeJEEDirect(true);
             }
 
             boolean success = false;
@@ -220,6 +220,16 @@ public class TradeBuildDB {
                 }
             }
         }
+
+        // Create some Red Hat stock
+        try {
+            tradeAction.createQuote("RHT", "Red Hat Inc.",
+                            new java.math.BigDecimal(TradeConfig.rndPrice()));
+            out.print(".....RHT");
+        } catch (Exception e) {
+            Log.error(e, "Can't create RHT");
+        }
+
         out.println("<BR>");
         out.println("<BR>**** Registering " + TradeConfig.getMAX_USERS()
             + " Users **** ");
@@ -243,7 +253,7 @@ public class TradeBuildDB {
                         email, creditcard, new BigDecimal(initialBalance));
                 String results;
                 if (accountData != null) {
-                    if (i % 50 == 0) {
+                    if (i % 10 == 0) {
                         out.print("<BR>Account# " + accountData.getAccountID()
                             + " userID=" + userID);
                     }
@@ -259,7 +269,7 @@ public class TradeBuildDB {
                             tradeAction.buy(userID, symbol, quantity,
                                 TradeConfig.orderProcessingMode);
                     }
-                    if (i % 50 == 0) {
+                    if (i % 10 == 0) {
                         out.println(" has " + holdings + " holdings.");
                         out.flush();
                     }

@@ -29,7 +29,7 @@ import java.io.IOException;
 
 /**
  * TradeConfigServlet provides a servlet interface to adjust DayTrader runtime parameters.
- * TradeConfigServlet updates values in the {@link org.apache.geronimo.samples.daytrader.web.TradeConfig} JavaBean holding 
+ * TradeConfigServlet updates values in the {@link TradeConfig} JavaBean holding
  * all configuration and runtime parameters for the Trade application
  *
  */
@@ -126,7 +126,19 @@ public class TradeConfigServlet extends HttpServlet {
             } // If the value is bad, simply revert to current
         }
         currentConfigStr += "\t\tRunTimeMode:\t\t" + TradeConfig.runTimeModeNames[TradeConfig.getRunTimeMode()] + "\n";
-        
+
+        String traceStr = req.getParameter("EnableTrace");
+        if (traceStr != null && traceStr.equalsIgnoreCase("on"))
+        {
+            TradeConfig.setTrace(true);
+            TradeConfig.setActionTrace(true);
+        } else {
+            TradeConfig.setTrace(false);
+            TradeConfig.setActionTrace(false);
+        }
+        currentConfigStr += "\t\tTrace:\t\t" + TradeConfig.getTrace() + "\n";
+
+
         /* Add JPA layer choice to avoid some ugly Hibernate bugs */
         String jpaLayerStr = req.getParameter("JPALayer");
         if (jpaLayerStr != null)

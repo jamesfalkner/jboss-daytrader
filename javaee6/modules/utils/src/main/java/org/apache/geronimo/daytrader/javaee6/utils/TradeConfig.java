@@ -80,7 +80,7 @@ public class TradeConfig {
     public static int cachingType = NO_CACHING;
     
     /* Trade Database Scaling parameters*/
-    private static int MAX_USERS = 500;
+    private static int MAX_USERS = 50;
     private static int MAX_QUOTES = 1000;
 
     /* Trade Database specific paramters */

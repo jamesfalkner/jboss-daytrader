@@ -1,0 +1,17 @@
+*.zip
+target/
+out/
+.DS_Store
+*.classpath
+*.project
+*.settings
+.security/
+*.jar
+*.war
+*.iml
+.idea
+.tern-project
+workspace
+data
+logs/
+tmp/

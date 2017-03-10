@@ -10,6 +10,7 @@ out/
 *.war
 *.iml
 .idea
+.tern-project
 workspace
 data
 logs/

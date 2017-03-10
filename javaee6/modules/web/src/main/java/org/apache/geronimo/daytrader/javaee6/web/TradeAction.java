@@ -115,7 +115,7 @@ public class TradeAction implements TradeServices {
             }
         } else if (TradeConfig.runTimeMode == TradeConfig.DIRECT) {
             try {
-                trade = new TradeJEEDirect();
+                trade = new TradeJEEDirect(true);
             }
             catch (Exception e) {
                 Log.error("TradeAction:TradeAction() Creation of Trade JDBC Direct failed\n" + e);

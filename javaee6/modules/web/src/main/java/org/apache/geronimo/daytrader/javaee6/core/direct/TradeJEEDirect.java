@@ -540,7 +540,7 @@ public class TradeJEEDirect implements TradeServices, TradeDBServices {
             conn = getConn();
             cancelOrder(conn, orderID);
             commit(conn);
-
+      
         } catch (Exception e) {
             Log.error("TradeDirect:cancelOrder -- error cancelling order: " + orderID, e);
             rollBack(conn, e);
@@ -1866,7 +1866,7 @@ stmt = getStatement(conn, createAccountSQL);
        if (datasource == null)
             getDataSource();
         conn = datasource.getConnection();
-	if (getInGlobalTxn() == false)        conn.setAutoCommit(false);
+	//if (getInGlobalTxn() == false)        conn.setAutoCommit(false);
         if (Log.doTrace()) {
             synchronized (lock) {
                 connCount++;
@@ -2048,18 +2048,6 @@ stmt = getStatement(conn, createAccountSQL);
         }
 
 
-// jhf
-//
-try {
-NamingEnumeration<NameClassPair> list = context.list("");
-while (list.hasMore()) {
-	NameClassPair nx = list.next();
-	System.out.println("Name: " + nx.getName() + " cn: " + nx.getClassName());
-}
-System.out.println("found it");
-} catch (Exception ex) {
-ex.printStackTrace();
-}
         try {
 
             queue = (Queue) context.lookup("java:/queue/TradeBrokerQueue");

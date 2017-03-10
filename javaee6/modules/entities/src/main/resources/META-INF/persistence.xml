@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -15,30 +16,28 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+   http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
 
     <persistence-unit transaction-type="JTA" name="daytrader">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
                <jta-data-source>java:/jdbc/TradeDataSource</jta-data-source>
- 
+
         <class>org.apache.geronimo.daytrader.javaee6.entities.AccountDataBean</class>
         <class>org.apache.geronimo.daytrader.javaee6.entities.AccountProfileDataBean</class>
         <class>org.apache.geronimo.daytrader.javaee6.entities.HoldingDataBean</class>
         <class>org.apache.geronimo.daytrader.javaee6.entities.OrderDataBean</class>
         <class>org.apache.geronimo.daytrader.javaee6.entities.QuoteDataBean</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
-        
+
         <properties>
-
-<property name="hibernate.transaction.auto_close_session" value="true"/>
-<!-- <property name="hibernate.hbm2ddl.auto" value="update"/>   -->
-<property name="hibernate.connection.autocommit" value="false"/>  
-
-         <property name="jboss.entity.manager.jndi.name" value="java:/foo"/>
-         <property name="jboss.entity.manager.factory.jndi.name" value="java:/foofactory"/>
-
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+          <property name="hibernate.transaction.auto_close_session" value="true"/>
+          <!-- <property name="hibernate.hbm2ddl.auto" value="update"/>   -->
+          <property name="hibernate.connection.autocommit" value="false"/>
+          <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
         </properties>
     </persistence-unit>
 </persistence>

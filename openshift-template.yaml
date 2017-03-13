@@ -242,14 +242,15 @@ objects:
           terminationMessagePath: /dev/termination-log
           volumeMounts:
           - mountPath: /var/lib/mysql/data
-            name: web-mysql-data
+            name: web-mysql-pvol
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         securityContext: {}
         terminationGracePeriodSeconds: 60
         volumes:
-        - name: web-mysql-data
-          emptyDir: {}
+        - name: web-mysql-pvol
+          persistentVolumeClaim:
+            claimName: web-mysql-claim
     test: false
     triggers:
     - imageChangeParams:
@@ -263,6 +264,17 @@ objects:
       type: ImageChange
     - type: ConfigChange
   status: {}
+
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: web-mysql-claim
+  spec:
+    accessModes:
+     - ReadWriteOnce
+     resources:
+      requests:
+        storage: 2Gi		
 - apiVersion: v1
   kind: Service
   metadata:
@@ -306,6 +318,53 @@ objects:
       name: web
       weight: 100
     wildcardPolicy: None
+
+## pipeline
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    labels:
+      build: daytrader-pipeline
+    name: daytrader-pipeline
+    annotations:
+      pipeline.alpha.openshift.io/uses: '[{"name": "web", "kind": "BuildConfig"},{"name": "web", "kind": "DeploymentConfig"}]'
+  spec:
+    runPolicy: Serial
+    strategy:
+      jenkinsPipelineStrategy:
+        jenkinsfile: |-
+          node ('maven') {
+            stage 'Build'
+            sleep 5
+
+            stage 'Run Tests in DEV'
+            sleep 4
+
+            stage 'Deploy to TEST'
+            sleep 4
+
+            stage 'Run Tests in TEST'
+            sleep 5
+          }
+
+          node {
+            stage 'Deploy to PROD (Not Live)'
+            sleep 6
+
+            stage 'Smoke Tests in PROD (Not Live)'
+            sleep 10
+          }
+
+          stage 'Approve Go Live'
+          timeout(time:30, unit:'MINUTES') {
+            input message:'Go Live in Production?'
+          }
+
+          node {
+            stage 'Go Live'
+            openshiftDeploy(deploymentConfig: 'web')
+          }
+      type: JenkinsPipeline
 parameters:
 - description: Maven mirror url. If nexus is deployed locally, use nexus url (e.g. http://nexus.ci:8081/content/groups/public/)
   displayName: Maven mirror url

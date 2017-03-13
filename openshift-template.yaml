@@ -271,10 +271,10 @@ objects:
     name: web-mysql-claim
   spec:
     accessModes:
-     - ReadWriteOnce
-     resources:
+    - ReadWriteOnce
+    resources:
       requests:
-        storage: 2Gi		
+        storage: 2Gi
 - apiVersion: v1
   kind: Service
   metadata:

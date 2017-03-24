@@ -54,7 +54,7 @@ objects:
           value: javaee6/assemblies/daytrader-ear/target
         from:
           kind: ImageStreamTag
-          name: jboss-eap64-openshift:1.4
+          name: jboss-eap70-openshift:1.4
           namespace: openshift
       type: Source
     triggers:

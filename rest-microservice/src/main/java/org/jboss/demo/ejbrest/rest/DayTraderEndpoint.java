@@ -8,8 +8,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.xml.bind.annotation.XmlRootElement;
+
 import java.util.Properties;
 
 
@@ -49,60 +48,6 @@ public class DayTraderEndpoint {
 			return trader.sell("uid:0", 2000 , 0);
 		} else {
 			throw new UnsupportedOperationException("Invalid action: " + order.getAction());
-		}
-	}
-
-
-	@XmlRootElement
-	class Order {
-		private int limit;
-		private String ticker;
-		private int quantity;
-		private String action;
-		private String expiration;
-
-		public Order() {
-
-		}
-
-		public int getLimit() {
-			return limit;
-		}
-
-		public void setLimit(int limit) {
-			this.limit = limit;
-		}
-
-		public String getTicker() {
-			return ticker;
-		}
-
-		public void setTicker(String ticker) {
-			this.ticker = ticker;
-		}
-
-		public int getQuantity() {
-			return quantity;
-		}
-
-		public void setQuantity(int quantity) {
-			this.quantity = quantity;
-		}
-
-		public String getAction() {
-			return action;
-		}
-
-		public void setAction(String action) {
-			this.action = action;
-		}
-
-		public String getExpiration() {
-			return expiration;
-		}
-
-		public void setExpiration(String expiration) {
-			this.expiration = expiration;
 		}
 	}
 }

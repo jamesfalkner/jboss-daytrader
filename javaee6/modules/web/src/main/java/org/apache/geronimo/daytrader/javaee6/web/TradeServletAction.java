@@ -324,7 +324,7 @@ public class TradeServletAction {
             // JavaEE we should catch a javax.ejb.FinderException while
             // for non-JavaEE we should catch a RuntimeException
             try {
-                Class c = Class.forName("javax.ejb.FinderException");
+                Class c = javax.ejb.FinderException.class;
                 javaee = true;
                 if ((c != null) && (e instanceof javax.ejb.FinderException)) { // JavaEE container
                     // this is a user error so I will
@@ -341,7 +341,7 @@ public class TradeServletAction {
                         + "treating this as a user error and forwarding on to a new page",
                         e);
                 }
-            } catch (ClassNotFoundException cnne) {
+            } catch (Exception cnne) {
                 // ignore, for the non-JavaEE web-only assemblies
             }
             

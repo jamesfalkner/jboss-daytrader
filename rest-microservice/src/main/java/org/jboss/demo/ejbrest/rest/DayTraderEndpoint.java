@@ -9,6 +9,7 @@ import javax.naming.InitialContext;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Properties;
 
 
@@ -17,18 +18,14 @@ public class DayTraderEndpoint {
 
 	/**
 	 * Simple REST endpoint that executes a trade by calling a remote EJB.
-	 * @param userId DayTrader user ID
-	 * @param symbol Stock ticker symbol to buy
-	 * @param quantity quantity of shares to buy
+	 * @param order The details of the action to take (buy/sell, quantity, etc)
 	 * @return Completed order object
 	 * @throws Exception If things go wrong
 	 */
 	@POST
-	@Path("/buy/{userId}/{symbol}/{quantity}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public OrderDataBean buy(@PathParam("userId") String userId,
-							 @PathParam("symbol") String symbol,
-							 @PathParam("quantity") int quantity) throws Exception {
+	public OrderDataBean trade(Order order) throws Exception {
 
 		Properties prop = new Properties();
 		prop.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
@@ -44,11 +41,69 @@ public class DayTraderEndpoint {
 
 		// invoke on the remote service
 		System.out.println("logging in and buying shares");
-		trader.login(userId, "xxx");
+		trader.login("uid:0", "xxx");
 
-		return trader.buy(userId, symbol, quantity, 0);
+		if ("buy".equalsIgnoreCase(order.getAction())) {
+			return trader.buy("uid:0", order.getTicker(), order.getQuantity(), 0);
+		} else if ("sell".equalsIgnoreCase(order.getAction())) {
+			return trader.sell("uid:0", 2000 , 0);
+		} else {
+			throw new UnsupportedOperationException("Invalid action: " + order.getAction());
+		}
 	}
 
 
+	@XmlRootElement
+	class Order {
+		private int limit;
+		private String ticker;
+		private int quantity;
+		private String action;
+		private String expiration;
 
+		public Order() {
+
+		}
+
+		public int getLimit() {
+			return limit;
+		}
+
+		public void setLimit(int limit) {
+			this.limit = limit;
+		}
+
+		public String getTicker() {
+			return ticker;
+		}
+
+		public void setTicker(String ticker) {
+			this.ticker = ticker;
+		}
+
+		public int getQuantity() {
+			return quantity;
+		}
+
+		public void setQuantity(int quantity) {
+			this.quantity = quantity;
+		}
+
+		public String getAction() {
+			return action;
+		}
+
+		public void setAction(String action) {
+			this.action = action;
+		}
+
+		public String getExpiration() {
+			return expiration;
+		}
+
+		public void setExpiration(String expiration) {
+			this.expiration = expiration;
+		}
+	}
 }
+

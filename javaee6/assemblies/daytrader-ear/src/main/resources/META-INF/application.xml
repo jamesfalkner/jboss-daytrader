@@ -19,7 +19,7 @@
   <module>
     <web>
       <web-uri>web.war</web-uri>
-      <context-root>daytrader</context-root>
+      <context-root></context-root>
     </web>
   </module>
   <library-directory>lib</library-directory>

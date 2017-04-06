@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Properties;
 
 
-@Path("/api/daytrader")
+@Path("/api")
 public class DayTraderEndpoint {
 
 	/**
@@ -24,6 +24,7 @@ public class DayTraderEndpoint {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/daytrader")
 	public OrderDataBean trade(Order order) throws Exception {
 
 		Properties prop = new Properties();
@@ -50,5 +51,12 @@ public class DayTraderEndpoint {
 			throw new UnsupportedOperationException("Invalid action: " + order.getAction());
 		}
 	}
+	
+	@GET
+	@Path("/health")
+	public String health() {
+		return "ok";
+	}
+
 }
 

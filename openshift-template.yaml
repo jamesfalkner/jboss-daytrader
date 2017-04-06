@@ -137,7 +137,7 @@ objects:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /daytrader
+              path: /
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 20
@@ -161,7 +161,7 @@ objects:
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /daytrader
+              path: /
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 20

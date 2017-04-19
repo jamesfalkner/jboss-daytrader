@@ -28,8 +28,8 @@
     <artifactId>daytrader-sqlserver-datasource</artifactId>
     <packaging>car</packaging>
     <name>Daytrader :: Plugins :: Microsoft SQL Server DataSource</name>
-    <description>Microsoft SQL Server Datasource plugin for Daytrader.  Requires SQL Server 2.0 JDBC files.</description>
-
+    <description>Microsoft SQL Server Datasource plugin for Daytrader.</description>
+<!-- TODO: Clean this out -->
     <!--
         You can build this datasource if you have:
         1) the MSSQL artifact installed in a local repo and supply the URL:
@@ -41,6 +41,7 @@
                                      -Dversion=2.0 \
                                      -Dpackaging=jar
     -->
+    <!--    
     <properties>
         <maven.repo.drivers>http://not.a.real.repository</maven.repo.drivers>
     </properties>
@@ -59,6 +60,7 @@
             </releases>
         </repository>
     </repositories>
+    -->
 
     <dependencies>
         <dependency>
@@ -89,13 +91,11 @@
             <version>${geronimoVersion}</version>
             <scope>provided</scope>
         </dependency>
-	<!--You need to install the jdbc driver into local maven repo by self-->
         <dependency>
-                <groupId>com.microsoft.sqlserver</groupId>
-                <artifactId>sqljdbc4</artifactId>
-                <version>2.0</version>
-                <type>jar</type>
-            </dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>6.1.0.jre8</version>
+        </dependency>
     </dependencies>
 
     <build>

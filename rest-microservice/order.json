@@ -1,6 +1,6 @@
 {
   "limit": 0,
-  "ticker": "s:21",
+  "ticker": "BURR",
   "quantity": 4,
   "action": "buy",
   "expiration": "today"

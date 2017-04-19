@@ -25,6 +25,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.geronimo.daytrader.javaee6.core.api.*;
 import org.apache.geronimo.daytrader.javaee6.core.direct.*;
@@ -36,11 +38,11 @@ import org.apache.geronimo.daytrader.javaee6.entities.QuoteDataBean;
 import org.apache.geronimo.daytrader.javaee6.utils.*;
 
 /**
- * TradeBuildDB uses operations provided by the TradeApplication to 
- *   (a) create the Database tables 
- *   (b) populate a DayTrader database without creating the tables. 
+ * TradeBuildDB uses operations provided by the TradeApplication to
+ *   (a) create the Database tables
+ *   (b) populate a DayTrader database without creating the tables.
  * Specifically, a new DayTrader User population is created using
- * UserIDs of the form "uid:xxx" where xxx is a sequential number 
+ * UserIDs of the form "uid:xxx" where xxx is a sequential number
  * (e.g. uid:0, uid:1, etc.). New stocks are also created of the form "s:xxx",
  * again where xxx represents sequential numbers (e.g. s:1, s:2, etc.)
  */
@@ -57,7 +59,7 @@ public class TradeBuildDB {
     }
 
     /**
-     * Re-create the DayTrader db tables and populate them OR just populate a 
+     * Re-create the DayTrader db tables and populate them OR just populate a
      * DayTrader DB, logging to the provided output stream
      */
     public TradeBuildDB(java.io.PrintWriter out, String warPath)
@@ -116,13 +118,13 @@ public class TradeBuildDB {
                     ddlFile = new File(warPath + File.separatorChar + "dbscripts"
                         + File.separatorChar + "mysql" + File.separatorChar + "Table.ddl");
                 } else if (dbProductName.startsWith("Informix Dynamic Server")) { // if the Db is Informix dynamic server
-                    ddlFile = new File(warPath + File.separatorChar + "dbscripts" 
+                    ddlFile = new File(warPath + File.separatorChar + "dbscripts"
                         + File.separatorChar + "informix" + File.separatorChar + "Table.ddl");
                 } else if (dbProductName.startsWith("Microsoft SQL Server")) { // if the Db is Microsoft SQLServer
-                    ddlFile = new File(warPath + File.separatorChar + "dbscripts" 
+                    ddlFile = new File(warPath + File.separatorChar + "dbscripts"
                         + File.separatorChar + "sqlserver" + File.separatorChar + "Table.ddl");
                 } else if (dbProductName.startsWith("PostgreSQL")) { // if the Db is PostgreSQL
-                    ddlFile = new File(warPath + File.separatorChar + "dbscripts" 
+                    ddlFile = new File(warPath + File.separatorChar + "dbscripts"
                             + File.separatorChar + "postgre" + File.separatorChar + "Table.ddl");
                 } else { // Unsupported "Other" Database
                     ddlFile = new File(warPath + File.separatorChar + "dbscripts"
@@ -221,13 +223,27 @@ public class TradeBuildDB {
             }
         }
 
-        // Create some Red Hat stock
+        // Create some Fake stocks
+        List<String> tickers = Arrays.asList(
+            "BABO",
+            "TODD",
+            "ACME",
+            "FALK",
+            "PETE",
+            "BURR",
+            "JIM",
+            "OCRL",
+            "RTH",
+            "IMB"
+        );
         try {
-            tradeAction.createQuote("RHT", "Red Hat Inc.",
+          for (String ticker : tickers) {
+            tradeAction.createQuote(ticker, ticker + " Inc.",
                             new java.math.BigDecimal(TradeConfig.rndPrice()));
-            out.print(".....RHT");
+            out.print("....." + ticker);
+          }
         } catch (Exception e) {
-            Log.error(e, "Can't create RHT");
+            Log.error(e, "Can't create fake stocks");
         }
 
         out.println("<BR>");
@@ -259,7 +275,7 @@ public class TradeBuildDB {
                     }
 
                     // 0-MAX_HOLDING (inclusive), avg holdings per user = (MAX-0)/2
-                    int holdings = TradeConfig.rndInt(TradeConfig.getMAX_HOLDINGS() + 1); 
+                    int holdings = TradeConfig.rndInt(TradeConfig.getMAX_HOLDINGS() + 1);
                     double quantity = 0;
                     OrderDataBean orderData;
                     for (int j = 0; j < holdings; j++) {
@@ -340,4 +356,3 @@ public class TradeBuildDB {
 
     }
 }
-

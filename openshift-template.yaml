@@ -227,7 +227,7 @@ objects:
           - name: SA_PASSWORD
             value: daytrader100
           - name: ACCEPT_EULA
-            value: Y
+            value: "Y"
           image: microsoft/mssql-server-linux
           imagePullPolicy: Always
           name: mssql

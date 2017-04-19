@@ -88,21 +88,6 @@ objects:
       spec:
         containers:
         - env:
-          - name: DB_SERVICE_PREFIX_MAPPING
-            value: web-mysql=DB
-          - name: DB_JNDI
-            value: java:/jdbc/TradeDataSource
-          - name: DB_USERNAME
-            value: daytrader
-          - name: DB_PASSWORD
-            value: daytrader
-          - name: DB_DATABASE
-            value: tradedb
-          - name: TX_DATABASE_PREFIX_MAPPING
-            value: web-mysql=DB
-          - name: DB_MIN_POOL_SIZE
-          - name: DB_MAX_POOL_SIZE
-          - name: DB_TX_ISOLATION
           - name: OPENSHIFT_KUBE_PING_LABELS
             value: application=web
           - name: OPENSHIFT_KUBE_PING_NAMESPACE
@@ -129,7 +114,7 @@ objects:
           - name: JGROUPS_CLUSTER_PASSWORD
             value: ${JGROUPS_CLUSTER_PASSWORD}
           - name: TIMER_SERVICE_DATA_STORE
-            value: web-mysql
+            value: web-mssql
           - name: AUTO_DEPLOY_EXPLODED
             value: "false"
           image: web
@@ -207,11 +192,11 @@ objects:
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
-    name: mysql
+    name: mssql
   spec:
     replicas: 1
     selector:
-      deploymentConfig: mysql
+      deploymentConfig: mssql
     strategy:
       recreateParams:
         timeoutSeconds: 600
@@ -220,61 +205,32 @@ objects:
     template:
       metadata:
         labels:
-          deploymentConfig: mysql
+          deploymentConfig: mssql
       spec:
         containers:
         - env:
-          - name: MYSQL_USER
-            value: daytrader
-          - name: MYSQL_PASSWORD
-            value: daytrader
-          - name: MYSQL_DATABASE
-            value: tradedb
-          - name: MYSQL_LOWER_CASE_TABLE_NAMES
-            value: "1"
-          image: centos/mysql-56-centos7
+          - name: SA_PASSWORD
+            value: daytrader1!
+          - name: ACCEPT_EULA
+            value: "Y"
+          image: microsoft/mssql-server-linux:latest
           imagePullPolicy: Always
-          name: mysql
+          name: mssql
           ports:
-          - containerPort: 3306
+          - containerPort: 1433
             protocol: TCP
           resources: {}
           terminationMessagePath: /dev/termination-log
           volumeMounts:
-          - mountPath: /var/lib/mysql/data
-            name: web-mysql-pvol
+          - mountPath: /var/opt/mssql
+            name: web-mssql-pvol
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         securityContext: {}
         terminationGracePeriodSeconds: 60
         volumes:
-        - name: web-mysql-pvol
-          persistentVolumeClaim:
-            claimName: web-mysql-claim
-    test: false
-    triggers:
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - mysql
-        from:
-          kind: ImageStreamTag
-          name: mysql:latest
-          namespace: openshift
-      type: ImageChange
-    - type: ConfigChange
-  status: {}
-
-- apiVersion: v1
-  kind: PersistentVolumeClaim
-  metadata:
-    name: web-mysql-claim
-  spec:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: 2Gi
+        - name: web-mssql-pvol
+          emptyDir: {}
 - apiVersion: v1
   kind: Service
   metadata:
@@ -295,14 +251,14 @@ objects:
   metadata:
     annotations:
       description: The database server's port.
-    name: web-mysql
+    name: web-mssql
   spec:
     ports:
-    - port: 3306
+    - port: 1433
       protocol: TCP
-      targetPort: 3306
+      targetPort: 1433
     selector:
-      deploymentConfig: mysql
+      deploymentConfig: mssql
     sessionAffinity: None
     type: ClusterIP
 - apiVersion: v1

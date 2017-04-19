@@ -15,6 +15,10 @@
 
 # Each SQL statement in this file should terminate with a semicolon (;)
 # Lines starting with the pound character (#) are considered as comments
+CREATE DATABASE tradedb
+GO
+USE tradedb
+GO
 DROP TABLE HOLDINGEJB;
 DROP TABLE ACCOUNTPROFILEEJB;
 DROP TABLE QUOTEEJB;

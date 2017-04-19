@@ -37,7 +37,7 @@
           <property name="hibernate.transaction.auto_close_session" value="true"/>
           <!-- <property name="hibernate.hbm2ddl.auto" value="update"/>   -->
           <property name="hibernate.connection.autocommit" value="false"/>
-          <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+          <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2008Dialect"/>
         </properties>
     </persistence-unit>
 </persistence>

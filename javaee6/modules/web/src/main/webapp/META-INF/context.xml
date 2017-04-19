@@ -62,7 +62,7 @@
                maxActive="100" maxIdle="30" maxWait="10000"
                username="db2admin" password="password" driverClassName="com.ibm.db2.jcc.DB2Driver"
                url="jdbc:db2://localhost:50000/tradedb" connectionProperties="driverType=4;"/> -->
-
+<!-- TODO: Need to do something here? -->
     <Resource name="jdbc/TradeDataSource" auth="Container" type="javax.sql.DataSource"
                maxActive="100" maxIdle="30" maxWait="10000" driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
                url="jdbc:derby:tradedb;create=true"/>     

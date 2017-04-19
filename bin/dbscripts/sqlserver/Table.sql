@@ -12,9 +12,10 @@
 --    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 --    See the License for the specific language governing permissions and
 --    limitations under the License.
-
-use tradedb
-go
+CREATE DATABASE tradedb
+GO
+USE tradedb
+GO
 DROP TABLE HOLDINGEJB
 DROP TABLE ACCOUNTPROFILEEJB
 DROP TABLE QUOTEEJB

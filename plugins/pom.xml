@@ -64,9 +64,9 @@
                 <module>daytrader-derby-datasource</module>
                 <module>daytrader-db2-datasource</module>
                 <module>daytrader-oracle-datasource</module>
-        	<module>daytrader-mysql-datasource</module>
+        	    <module>daytrader-mysql-datasource</module>
                 <module>daytrader-informix-datasource</module>
-        	<module>daytrader-sqlserver-datasource</module>
+        	    <module>daytrader-sqlserver-datasource</module>
                 <module>daytrader-postgre-datasource</module>        	
                 <!--<module>daytrader-jetty</module>
                 <module>daytrader-tomcat</module>-->

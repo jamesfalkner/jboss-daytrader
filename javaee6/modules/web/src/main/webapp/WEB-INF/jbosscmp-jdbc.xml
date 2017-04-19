@@ -17,7 +17,7 @@
 -->
 <!DOCTYPE jbosscmp-jdbc PUBLIC "-//JBoss//DTD JBOSSCMP-JDBC 4.0//EN" "http://www.jboss.org/j2ee/dtd/jbosscmp-jdbc_4_0.dtd">
 <jbosscmp-jdbc>
-
+<!-- TODO: Need to do something here? -->
     <defaults>
         <datasource>java:IS346DS</datasource>
         <datasource-mapping>mySQL</datasource-mapping>

@@ -1,6 +1,8 @@
 #!/bin/bash
 
-BASEDIR=$(dirname "$0")/..
+THIS=$(readlink -f "$0")
+BASEDIR=$(dirname $THIS)/..
+
 cd $BASEDIR
 git reset --hard
 

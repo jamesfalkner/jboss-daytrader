@@ -1,6 +1,8 @@
 #!/bin/bash
 
-BASEDIR=$(dirname "$0")/..
+THIS=$(readlink -f "$0")
+BASEDIR=$(dirname $THIS)/..
+
 oc login -u developer -p developer
 oc project daytrader
 cd $BASEDIR/rest-microservice

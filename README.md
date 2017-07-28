@@ -42,11 +42,11 @@ oc process -f openshift-template.yaml | oc create -f -
 ```
 oc policy add-role-to-user view system:serviceaccount:$(oc project -q):eap-service-account -n $(oc project -q)
 ```
-This will deploy DayTrader using the containerized JBoss EAP 6.4 xPaaS image, backed by an ephemeral MySQL instance.
+This will deploy DayTrader using the containerized JBoss EAP 7 xPaaS image, backed by an ephemeral MySQL instance.
 
-If you wish to switch to using JBoss EAP 7, simply update the BuildConfig to build with EAP 7:
+If you wish to switch to using JBoss EAP 6.4, simply update the BuildConfig to build with EAP 6.4:
 
-    oc patch bc/web -p '{"spec":{"strategy":{"sourceStrategy":{"from":{"name":"jboss-eap70-openshift:1.4"}}}}}'
+    oc patch bc/web -p '{"spec":{"strategy":{"sourceStrategy":{"from":{"name":"jboss-eap64-openshift:1.4"}}}}}'
 
 This will cause a new build and eventually new deployment to be kicked off. If it does not, you can force it with `oc start-build web`.
 To switch back, just roll back to the previous deployment (e.g. `oc rollback web`).
@@ -58,7 +58,7 @@ default routing suffix is `foo.com` then you could access DayTrader using `http:
 Builds can take a long time due to the copious amounts of Maven dependencies that must be downloaded. If you wish to save build time, you can setup a Maven Mirror (e.g. using Sonatype's Nexus Repository or JFrog's Artifactory) and point at it
 using the `MAVEN_MIRROR_URL` OpenShift template parameter. For example:
 ```
-oc process -f openshift-template.yaml MAVEN_MIRROR_URL=http://mymirror.local:8081/repositories/maven-all | oc create -f -
+oc process -f openshift-template.yaml MAVEN_MIRROR_URL=http://nexus.ci:8081/repositories/maven-all | oc create -f -
 ```
 
 
